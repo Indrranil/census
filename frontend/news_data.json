@@ -1,0 +1,15 @@
+[
+  {
+    "source": {
+      "id": null,
+      "name": "Example Source"
+    },
+    "author": "Author Name",
+    "title": "Sample Title",
+    "description": "Sample Description",
+    "url": "https://example.com",
+    "urlToImage": "https://example.com/image.jpg",
+    "publishedAt": "2024-07-23T00:00:00Z",
+    "content": "Sample content"
+  }
+]
