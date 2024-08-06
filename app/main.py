@@ -1,37 +1,32 @@
+import os
+import sys
 import streamlit as st
-import pandas as pd
-from src.visualization import plot_age_distribution, plot_gender_ratio
+from sidebar import sidebar.show_sidebar
 
-def load_data():
-    """Load the processed data."""
-    return pd.read_csv('data/processed/population_data.csv')
+# Set up paths
+base_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(base_dir, '..', 'data', 'processed')
 
+# Import functions from src
+sys.path.insert(0, os.path.abspath(os.path.join(base_dir, '..', 'src')))
+from visualization import plot_demographics, plot_trends
+
+# Sidebar
+sidebar()
+
+# Streamlit app structure
 def main():
     st.title("Census Data Insight Dashboard")
 
-    # Sidebar for navigation
-    st.sidebar.header("Navigation")
-    page = st.sidebar.radio("Select a Page", ["Home", "Demographics", "Trends"])
-
-    # Load data
-    df = load_data()
+    # Navigation
+    page = st.sidebar.selectbox("Choose a page", ["Home", "Demographics", "Trends"])
 
     if page == "Home":
         st.write("Welcome to the Census Data Insight Dashboard!")
-
     elif page == "Demographics":
-        st.subheader("Demographic Analysis")
-        st.write("### Age Distribution")
-        age_fig = plot_age_distribution(df)
-        st.plotly_chart(age_fig)
-
-        st.write("### Gender Ratio")
-        gender_fig = plot_gender_ratio(df)
-        st.plotly_chart(gender_fig)
-
+        plot_demographics(data_dir)
     elif page == "Trends":
-        st.subheader("Trend Analysis")
-        st.write("This page will contain trend analysis visualizations.")
+        plot_trends(data_dir)
 
 if __name__ == "__main__":
     main()
