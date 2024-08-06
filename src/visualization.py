@@ -1,23 +1,28 @@
-import plotly.express as px
+import os
+import sys
 import pandas as pd
+import plotly.express as px
 
-def plot_age_distribution(df):
-    """Create a bar chart of age distribution."""
-    fig = px.histogram(df, x='age', title='Age Distribution')
-    return fig
+# Import utils for path handling
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+from utils import get_data_path
 
-def plot_gender_ratio(df):
-    """Create a pie chart of gender ratio."""
-    gender_counts = df['gender'].value_counts()
-    fig = px.pie(values=gender_counts, names=gender_counts.index, title='Gender Ratio')
-    return fig
+def plot_demographics(data_dir):
+    """Plot demographic data."""
+    file_path = get_data_path('population_data.csv')
+    df = pd.read_csv(file_path)
 
-if __name__ == "__main__":
-    # Example usage
-    df = pd.read_csv('data/processed/population_data.csv')
+    fig_age = px.histogram(df, x="age", title="Age Distribution")
+    fig_gender = px.pie(df, names="gender", title="Gender Ratio")
 
-    age_fig = plot_age_distribution(df)
-    age_fig.show()
+    fig_age.show()
+    fig_gender.show()
 
-    gender_fig = plot_gender_ratio(df)
-    gender_fig.show()
+def plot_trends(data_dir):
+    """Plot trends data (example placeholder)."""
+    file_path = get_data_path('population_data.csv')
+    df = pd.read_csv(file_path)
+
+    # Example plot
+    fig = px.line(df, x="date", y="value", title="Trends Over Time")
+    fig.show()
